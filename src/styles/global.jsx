@@ -35,13 +35,6 @@ export default createGlobalStyle`
     a{
         text-decoration: none;
     }
-    span{
-        color: var(--grey-1);
-        position: relative;
-        top: 8%;
-        right: 13%;
-
-    }
     label{
         font-size: 12px;
     }

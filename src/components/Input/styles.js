@@ -1,10 +1,14 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 
 export const Container = styled.div`
     text-align: left;
     color: var(--grey-0);
     font-size: 17px;
+    span{
+        font-size: 14px;
+        color: var( --color-primary-Negative);
+    }
 `
 
 export const ContentInput = styled.div`
@@ -15,6 +19,13 @@ export const ContentInput = styled.div`
     border-radius: 4px;
     padding: 9px;
     margin: 10px 0 ;
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--grey-2);
+
+    ${props => props.isError && css`
+    border: 2px solid var(--color-primary-Negative);
+    `}
     @media (min-width:768px){
         height: 48px;
         width: 329px;

@@ -7,6 +7,7 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+   
 `
 
 export const Content = styled.div`
@@ -20,17 +21,18 @@ export const Content = styled.div`
         color: var(--color-primary);
     }
     @media (min-width:768px){
-        width: 350px;
+        width: 290px;
         
     }
-    @media (min-width: 320px){
-        width: 270px;
-    }
+   
+  @media (min-width:420px){
+    width: 270px;
+  }
     @media(max-width:320px){
         width: 250px;
     }
 `
-export const ContentForm = styled.div`
+export const ContentForm = styled.form`
     width: 295px;
     height: 568px;
     background-color: var(--grey-3);
