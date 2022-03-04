@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react"
-import { Redirect } from "react-router-dom"
+import { useHistory ,Redirect} from "react-router-dom"
 import { toast } from "react-toastify"
+import Button from "../../components/Button"
+import Modal from "../../components/Modal"
 import api from "../../services/api"
-import { ContentSelect } from "./styles.js"
+import { ContainerTech, ContainerTitle, ContentSelect, ContentTitle, Header, MainUser, Section, TitleTech } from "./styles.js"
+import jwt_decode from "jwt-decode";
+ 
+
 const Dashboard = ({infoUser,authenticated})=>{
+
     const [tecnolog,setTecnolog] = useState([])
-    const [token] = useState(JSON.parse(localStorage.getItem("@KenzieHub::token")))
+    const [token] = useState(JSON.parse(localStorage.getItem("@KenzieHub:token")))
+    const [user] = useState(JSON.parse(localStorage.getItem("@KenzieHub:user")))
     const [addTech,setAddTech] = useState([])
-    const [moldaVisible, setMoldalVisible] = useState(false)
     const [nivel,setNivel] = useState("")
+    const [modalDiplay,setModalDiplay] = useState(false)
     const [alter,setAlter] =  useState("")
-   
-    const {id} = infoUser.user || "daa53058-8031-4b2c-8a8e-917ac9efed3f"
+
+
+    // const user= jwt_decode(token);
+    
+
+    
+    const history = useHistory()
     
     const deleteTech = (value)=>{
         api.delete(`users/techs/${value}`,{
@@ -21,6 +33,7 @@ const Dashboard = ({infoUser,authenticated})=>{
         })
     }
 
+    
     const alterTech =(value)=>{
         api.put(`users/techs/${value}`,{
             status : alter
@@ -44,51 +57,67 @@ const Dashboard = ({infoUser,authenticated})=>{
                 Authorization: `Bearer ${token}`
             }
         }).then((_)=> toast.success("Tecnologia cadstrada")).catch((err)=> console.log(err))
-        console.log(nivel)
-        console.log(addTech)
+    
     }
+    
     useEffect(()=>{
         listTecnolog()
-      })
+      },[tecnolog])
 
     const listTecnolog =()=>{
-        api.get(`users/${id}`).then((resp)=> setTecnolog(resp.data.techs))
+        api.get(`users/${user.id}`).then((resp)=> setTecnolog(resp.data.techs))
         
     }
     
+    const exitPage=()=>{
+        localStorage.clear()
+        return history.push("/login")
+    }
     
     if(!authenticated){
-        return <Redirect to="/"/>
+        return  <Redirect to="/"/>
+        
     }
+
     return(
         <>
+        <Button onClick={()=> setModalDiplay(true)}>Click me</Button>
+        {modalDiplay && <Modal setModalDiplay={setModalDiplay} />}
+
+
+        <Header>
+            <h2>Kenzie Hub</h2>
+            <Button width="68px" heigth="32px" color="--grey-3" onClick={exitPage}>Sair</Button>
+        </Header>
+
+        <MainUser>
+            <h3>Ola, {user.name}</h3>
+            <p> {user.course_module}</p>
+        </MainUser>
+        <Section>
+
         
-        <h1>Ola {infoUser.user.name}</h1>
-        <button onClick={createTecnolog}> Teste</button>
-        <div>
-            criar
-            <ContentSelect  >
-            <input type="text"onChange={(e)=>setAddTech(e.target.value)} ></input>
-            <select onChange={(e)=>setNivel(e.target.value)}>
-                <option value="selecione" >Selecione</option>
-                <option value="Iniciante">Iniciante</option>
-                <option value="Intermediário">Intermediário</option>
-                <option value="Avançado">Avançado</option>
-            </select>
-            <button onClick={createTecnolog}>addd</button>
-            </ContentSelect>
+
+        <ContainerTitle>
+            <ContentTitle>
+                    <TitleTech>
+                        <h3>Tecnologias</h3>
+                    </TitleTech>
+
+                    <ContentSelect  >
+                        <input type="text"onChange={(e)=>setAddTech(e.target.value)} ></input>
+                        <select onChange={(e)=>setNivel(e.target.value)}>
+                            <option value="Iniciante">Iniciante</option>
+                            <option value="Intermediário">Intermediário</option>
+                            <option value="Avançado">Avançado</option>
+                        </select>
+                        <button onClick={createTecnolog}>addd</button>
+                    </ContentSelect>
+            </ContentTitle>
             
-        </div>
+        </ContainerTitle>
 
-            <div>
-                deletar 
-            </div>
-
-            <div>
-                alterar
-            </div>
-
-        <div>
+        <ContainerTech>
         {tecnolog.map((tech)=> 
             <div  key={tech.title}>
 
@@ -103,7 +132,8 @@ const Dashboard = ({infoUser,authenticated})=>{
             </select>
             </div>
         )}
-        </div>
+        </ContainerTech>
+        </Section>
         </>
     )
 }

@@ -8,9 +8,10 @@ const Routes =()=>{
     const [infoUser,SetInfoUser] = useState("")
     const [authenticated,setAuthenticated] = useState(false)
     useEffect(()=>{
-        const token = JSON.parse(localStorage.getItem("@KenzieHub::token"));
+        const token = JSON.parse(localStorage.getItem("@KenzieHub:token"));
+        
         if(token){
-            setAuthenticated(true)
+            return setAuthenticated(true)
         }
 
     },[authenticated])
