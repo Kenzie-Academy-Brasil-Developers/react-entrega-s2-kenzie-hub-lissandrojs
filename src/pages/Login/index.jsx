@@ -9,7 +9,9 @@ import  * as yup from "yup"
 import {yupResolver} from '@hookform/resolvers/yup'
 import api from '../../services/api';
 import { toast } from 'react-toastify';
-const Home =({SetInfoUser})=>{
+import { Redirect } from 'react-router-dom';
+const Home =({SetInfoUser, setAuthenticated,authenticated})=>{
+    const history = useHistory("")
     const schema = yup.object().shape({
         email:yup.string().email("E-mail invalido").required("Campo Obrigatorio"),
         password:yup.string().required("Campo Obrigatorio")
@@ -25,6 +27,10 @@ const Home =({SetInfoUser})=>{
             password
         }
         api.post("sessions",newLog).then((resp)=>{
+            const {token} = resp.data
+            setAuthenticated(true)
+            localStorage.setItem("@KenzieHub::token",JSON.stringify(token))
+            
             toast.success("Login Concluido")
             SetInfoUser(resp.data)
             history.push("/dashboard")
@@ -35,7 +41,10 @@ const Home =({SetInfoUser})=>{
         })
     }
     
-    const history = useHistory("")
+
+    if(authenticated){
+        <Redirect to="/dashboard"/>
+    }
     return(
         <Container>
             <h1>Kenzie Hub</h1>

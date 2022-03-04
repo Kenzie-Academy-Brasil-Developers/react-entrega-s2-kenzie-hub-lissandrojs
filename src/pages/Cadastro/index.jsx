@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from 'yup'
 import { useForm } from "react-hook-form"
-import { useHistory } from "react-router-dom"
+import { useHistory,Redirect } from "react-router-dom"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
 import { Container, ContainerSelect, Content, ContentForm, ContentSelect } from "./styles"
@@ -9,7 +9,7 @@ import api from "../../services/api"
 import { useState } from "react"
 import { toast } from 'react-toastify';
 
-const Cadastro =()=>{
+const Cadastro =({authenticated})=>{
     const schema = yup.object().shape({
         
         email:yup.string().email('Email Invalido').required("Email Obrigatorio"),
@@ -44,7 +44,9 @@ const Cadastro =()=>{
             toast.error("Erro ao cria a conta , tente um email diferente")
         })
     }
-  
+    if(authenticated){
+        <Redirect to="/dashboard"/>
+    }
     return(
         <Container>
             <Content>
