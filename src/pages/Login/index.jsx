@@ -42,9 +42,7 @@ const Home =({SetInfoUser, setAuthenticated,authenticated})=>{
     }
     
 
-    if(authenticated){
-        <Redirect to="/dashboard"/>
-    }
+ 
     return(
         <Container>
             <h1>Kenzie Hub</h1>

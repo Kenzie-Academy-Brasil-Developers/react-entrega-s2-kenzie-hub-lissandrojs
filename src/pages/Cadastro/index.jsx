@@ -36,7 +36,7 @@ const Cadastro =({authenticated})=>{
         api.post("users",newUser).then((resp)=>{
                 console.log(resp.data)
                 toast.success("Conta Criada com Sucesso")
-                return history.push("/login")
+                return history.push("/")
             })
         
         .catch((error)=>{
@@ -44,14 +44,12 @@ const Cadastro =({authenticated})=>{
             toast.error("Erro ao cria a conta , tente um email diferente")
         })
     }
-    if(authenticated){
-        <Redirect to="/dashboard"/>
-    }
+   
     return(
         <Container>
             <Content>
                 <h2>Kenzie Hub</h2>
-                <Button width="68px" heigth="32px" color="--grey-3" onClick={()=> history.push("/login")}>Voltar</Button>
+                <Button width="68px" heigth="32px" color="--grey-3" onClick={()=> history.push("/")}>Voltar</Button>
             </Content>
             <ContentForm onSubmit={handleSubmit(onSubmitForm)}>
                 <section>

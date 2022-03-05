@@ -2,25 +2,25 @@ import { useEffect, useState } from "react"
 import { useHistory ,Redirect} from "react-router-dom"
 import { toast } from "react-toastify"
 import Button from "../../components/Button"
-import Modal from "../../components/Modal"
+import ModalAdd from "../../components/ModalAdd"
 import api from "../../services/api"
-import { ContainerTech, ContainerTitle, ContentSelect, ContentTitle, Header, MainUser, Section, TitleTech } from "./styles.js"
-import jwt_decode from "jwt-decode";
+import { ContainerTech, ContainerTitle, ContentTitle, Header, MainUser, Section, TitleTech ,ItemList} from "./styles.js"
+import ModalModify from "../../components/ModalModify"
+
  
 
 const Dashboard = ({infoUser,authenticated})=>{
 
     const [tecnolog,setTecnolog] = useState([])
     const [token] = useState(JSON.parse(localStorage.getItem("@KenzieHub:token")))
-    const [user] = useState(JSON.parse(localStorage.getItem("@KenzieHub:user")))
+    const [user] = useState(JSON.parse(localStorage.getItem("@KenzieHub:user")|| ""))
     const [addTech,setAddTech] = useState([])
     const [nivel,setNivel] = useState("")
     const [modalDiplay,setModalDiplay] = useState(false)
     const [alter,setAlter] =  useState("")
-
-
-    // const user= jwt_decode(token);
+    const [modalChange,setModalChange] = useState(false)
     
+    const [teste,setTeste]= useState()
 
     
     const history = useHistory()
@@ -70,20 +70,15 @@ const Dashboard = ({infoUser,authenticated})=>{
     }
     
     const exitPage=()=>{
-        localStorage.clear()
-        return history.push("/login")
+        return history.push("/")
     }
+  
     
-    if(!authenticated){
-        return  <Redirect to="/"/>
-        
-    }
-
     return(
         <>
-        <Button onClick={()=> setModalDiplay(true)}>Click me</Button>
-        {modalDiplay && <Modal setModalDiplay={setModalDiplay} />}
-
+        
+        {modalDiplay && <ModalAdd setNivel={setNivel} setAddTech={setAddTech} createTecnolog={createTecnolog} setModalDiplay={setModalDiplay} />}
+        {modalChange  &&<ModalModify tech={teste} setAlter={setAlter} deleteTech={deleteTech} alterTech={alterTech} setModalChange={setModalChange}></ModalModify>}
 
         <Header>
             <h2>Kenzie Hub</h2>
@@ -103,35 +98,26 @@ const Dashboard = ({infoUser,authenticated})=>{
                     <TitleTech>
                         <h3>Tecnologias</h3>
                     </TitleTech>
-
-                    <ContentSelect  >
-                        <input type="text"onChange={(e)=>setAddTech(e.target.value)} ></input>
-                        <select onChange={(e)=>setNivel(e.target.value)}>
-                            <option value="Iniciante">Iniciante</option>
-                            <option value="Intermediário">Intermediário</option>
-                            <option value="Avançado">Avançado</option>
-                        </select>
-                        <button onClick={createTecnolog}>addd</button>
-                    </ContentSelect>
+                    
+                        <Button width="32px" heigth="32px" color="--grey-3" onClick={()=> setModalDiplay(true)}>+</Button>                    
+                    
             </ContentTitle>
             
         </ContainerTitle>
 
         <ContainerTech>
         {tecnolog.map((tech)=> 
-            <div  key={tech.title}>
+            <ItemList id={tech.id} onClick={(e)=> {
+                    setTeste(tech)
+                    setModalChange(true)
+                 }} key={tech.id}>
 
-                <p> {tech.title}</p>
-                <p >{tech.status}</p>
-                <button id={tech.id}onClick={(e)=> alterTech(e.target.id)}> alterar</button>
-                <button id={tech.id} onClick={(e)=> deleteTech(e.target.id)}>Delete</button>
-                <select onChange={(e)=>setAlter(e.target.value)}>
-                <option value="Iniciante">Iniciante</option>
-                <option value="Intermediário">Intermediário</option>
-                <option value="Avançado">Avançado</option>
-            </select>
-            </div>
+                <h4 id={tech.id}> {tech.title}</h4>
+                <p id={tech.id}>{tech.status}</p>
+           
+            </ItemList>           
         )}
+        
         </ContainerTech>
         </Section>
         </>

@@ -12,6 +12,7 @@ export const Header = styled.header`
     h2{
         color:var(--color-primary) ;
     }
+    
 
 `
 export const MainUser = styled.main`
@@ -34,50 +35,24 @@ export const ContentTitle = styled.div`
     width: 100%;
     height:72px ;
     display:flex ;
-   
-    
-`
-
-
-export const ContentSelect = styled.div`
-background-color: var(--grey-2);
-color: var(--grey-0);
-height: 38px;
-width: 264px;
-border-radius: 4px;
-padding: 9px;
-margin: 0 auto ;
-@media (min-width:768px){
-    height: 48px;
-    width: 329px;
-   
-}
-@media (max-width:280px){
-    width: 238px;
-    height: 35px;
-}
-select{
-    width: 100%;
-    background: transparent;
-    border: none;
+    justify-content: space-between;
     align-items: center;
-    flex: 1;
-    background-color: var(--grey-2);
-    color: var(--grey-1);
-    &::placeholder{
-        color: var(--grey-1);
-    }
+   button{
+       font-size:20px ;
+       font-weight:bold ;
+   }
     
-}
-
 `
+
+
+
 
 export const ContainerTech = styled.div`
-    width:278px ;
-    height: 416p;
+    width:296px ;
     background-color:var(--grey-3) ;
     border-radius:4px ;
-    @media screen {
+    
+    @media (min-width:768px) {
         width:779px ;
         
     }
@@ -87,17 +62,55 @@ export const ContainerTech = styled.div`
 
 export const TitleTech = styled.div`
     width: 50%;
+    
+   
 `
 
 export const Section = styled.section`
-    width:100% ;
     display:flex ;
     align-content: center;
     align-items: center;
     justify-content: space-around;
     flex-direction:column ;
+    margin:0 auto ;
+    width:296px ;
+    
+    @media (min-width:768px) {
+        width:779px ;
+        
+    }
+
 `
 export const ContainerTitle = styled.div`
     width:100% ;
     display:flex ;
+    margin:0 auto ;
+`
+export const ItemList = styled.div`
+    width: 279px;
+    height: 48px;
+    color:var(--grey-0) ;
+    border-radius:4px ;
+    margin:12px;
+    background-color: var(--grey-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding:10px ;
+    p{
+        font-size: 14px;
+        font-weight:400 ;
+        color:var(--grey-1) ;
+    }
+    h4{
+        font-weight:700 ;
+        color:var(--grey-0) ;
+    }
+    :hover{
+        background-color: var(--grey-2);
+    }
+    @media (min-width:768px){
+        width:742px ;
+    }
 `
